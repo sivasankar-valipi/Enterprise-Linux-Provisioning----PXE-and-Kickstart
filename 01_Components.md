@@ -15,7 +15,32 @@ The server firmware itself supports network boot.
 
 The lifecycle is:
 
-Blank Server │ ▼ UEFI Network Boot │ ▼ PXE Server │ ▼ RHEL Installer │ ▼ RHEL OS │ ▼ SSH │ ▼ Ansible
+Blank VM / Server
+       │
+       ▼
+  UEFI Network Boot
+       │
+       ▼
+     PXE Server
+       │
+       ▼
+ RHEL Installer
+  (Anaconda)
+       │
+       ▼
+ Kickstart File
+       │
+       ▼
+    RHEL OS
+       │
+       ▼
+   SSH Access
+       │
+       ▼
+ Ansible Control Node
+       │
+       ▼
+ Ansible Automation
 
 This is why PXE comes before Ansible in our architecture.
 
@@ -43,7 +68,33 @@ The PXE client initially doesn't have an operating system or normal application 
 
 The flow is:
 
-PXE Client │ │ TFTP ▼ pxe01 │ ├── grubx64.efi ├── vmlinuz └── initrd.img 9. UEFI PXE vs Legacy BIOS PXE
+┌──────────────────────┐
+│      PXE Client      │
+│      Blank VM        │
+└──────────┬───────────┘
+           │
+           │  DHCP
+           ▼
+┌──────────────────────┐
+│      PXE Server      │
+│        pxe01         │
+└──────────┬───────────┘
+           │
+           │  TFTP
+           ▼
+┌──────────────────────┐
+│     Boot Files       │
+├──────────────────────┤
+│ grubx64.efi          │
+│ vmlinuz              │
+│ initrd.img            │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│   RHEL Installer     │
+│      Anaconda         │
+└──────────────────────┘
 
 ## HTTP Repository
 
