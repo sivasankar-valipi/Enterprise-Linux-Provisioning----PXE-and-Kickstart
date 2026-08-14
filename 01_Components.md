@@ -15,8 +15,6 @@ The server firmware itself supports network boot.
 
 The lifecycle is:
 
-The lifecycle is:
-
 ```text
 Blank VM / Server
        |
@@ -69,35 +67,25 @@ Why TFTP is used
 
 The PXE client initially doesn't have an operating system or normal application environment. It needs a very simple mechanism to retrieve the first bootloader.
 
-The flow is:
+### PXE Installation Architecture
 
-┌──────────────────────┐
-│      PXE Client      │
-│      Blank VM        │
-└──────────┬───────────┘
-           │
-           │  DHCP
-           ▼
-┌──────────────────────┐
-│      PXE Server      │
-│        pxe01         │
-└──────────┬───────────┘
-           │
-           │  TFTP
-           ▼
-┌──────────────────────┐
-│     Boot Files       │
-├──────────────────────┤
-│ grubx64.efi          │
-│ vmlinuz              │
-│ initrd.img            │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│   RHEL Installer     │
-│      Anaconda         │
-└──────────────────────┘
+```mermaid
+flowchart TD
+    A["Blank VM<br/>PXE Client"] -->|DHCP| B["PXE Server<br/>pxe01"]
+
+    B -->|TFTP| C["UEFI Boot Files<br/>grubx64.efi<br/>vmlinuz<br/>initrd.img"]
+
+    C --> D["RHEL Installer<br/>Anaconda"]
+
+    D -->|HTTP/HTTPS| E["Kickstart<br/>ks.cfg"]
+
+    D -->|HTTP/HTTPS| F["Local RHEL Repository<br/>RHEL Packages"]
+
+    E --> G["Automated RHEL Installation"]
+    F --> G
+
+    G --> H["RHEL OS"]
+```
 
 ## HTTP Repository
 
