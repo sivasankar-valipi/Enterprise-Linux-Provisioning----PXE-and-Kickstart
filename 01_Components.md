@@ -18,17 +18,18 @@ The lifecycle is:
 Blank VM / Server
        │
        ▼
-  UEFI Network Boot
+UEFI Network Boot
        │
        ▼
-     PXE Server
+   PXE Server
        │
        ▼
- RHEL Installer
-  (Anaconda)
+RHEL Installer
+   Anaconda
        │
        ▼
- Kickstart File
+Kickstart File
+    ks.cfg
        │
        ▼
     RHEL OS
@@ -37,10 +38,10 @@ Blank VM / Server
    SSH Access
        │
        ▼
- Ansible Control Node
+Ansible Control Node
        │
        ▼
- Ansible Automation
+Ansible Automation
 
 This is why PXE comes before Ansible in our architecture.
 
