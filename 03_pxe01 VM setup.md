@@ -80,8 +80,6 @@ Enable the network interface by toggling it ON.
 
 Set the hostname.
 
-For Node1:
-
 pxe01
 
 Click --> Apply
