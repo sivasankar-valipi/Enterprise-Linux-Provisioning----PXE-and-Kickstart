@@ -67,24 +67,29 @@ Why TFTP is used
 
 The PXE client initially doesn't have an operating system or normal application environment. It needs a very simple mechanism to retrieve the first bootloader.
 
-### PXE Installation Architecture
+The flow is:
 
-```mermaid
-flowchart TD
-    A["Blank VM<br/>PXE Client"] -->|DHCP| B["PXE Server<br/>pxe01"]
-
-    B -->|TFTP| C["UEFI Boot Files<br/>grubx64.efi<br/>vmlinuz<br/>initrd.img"]
-
-    C --> D["RHEL Installer<br/>Anaconda"]
-
-    D -->|HTTP/HTTPS| E["Kickstart<br/>ks.cfg"]
-
-    D -->|HTTP/HTTPS| F["Local RHEL Repository<br/>RHEL Packages"]
-
-    E --> G["Automated RHEL Installation"]
-    F --> G
-
-    G --> H["RHEL OS"]
+```text
+PXE Client
+    |
+    | Blank VM
+    |
+    | DHCP
+    v
+PXE Server (pxe01)
+    |
+    | TFTP
+    v
+Boot Files
+    |
+    +-- grubx64.efi
+    |
+    +-- vmlinuz
+    |
+    +-- initrd.img
+    |
+    v
+RHEL Installer (Anaconda)
 ```
 
 ## HTTP Repository
