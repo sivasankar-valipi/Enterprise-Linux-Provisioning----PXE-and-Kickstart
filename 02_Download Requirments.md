@@ -86,7 +86,7 @@ Red Hat Enterprise Linux (RHEL) is the operating system used throughout this lab
 
 ---
 
-**In this project, we are using Red Hat Enterprise Linux 9.8 (Plow)**
+**In this project, we are using Red Hat Enterprise Linux 9.0**
 
 ## Next Step
 
