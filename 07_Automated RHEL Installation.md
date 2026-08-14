@@ -84,8 +84,11 @@ The VM should attempt:
 
 EFI Network...
 
-At this point, the PXE workflow begins automatically:
+## PXE Boot Workflow
 
+At this point, the PXE workflow begins automatically when the blank `rhel01` VM is powered on.
+
+```text
 ┌──────────────────────────────┐
 │       New Blank VM           │
 │          rhel01              │
@@ -130,29 +133,29 @@ At this point, the PXE workflow begins automatically:
        └────────┬────────┘
                 │
                 ▼
-          grub.cfg
+             grub.cfg
                 │
                 ▼
        ┌─────────────────┐
-       │ vmlinuz         │
-       │ initrd.img      │
+       │     vmlinuz     │
+       │    initrd.img   │
        └────────┬────────┘
                 │
                 ▼
        ┌─────────────────┐
-       │  RHEL 9         │
-       │  Anaconda       │
-       │   Installer     │
+       │     RHEL 9      │
+       │     Anaconda    │
+       │    Installer    │
        └────────┬────────┘
                 │
         ┌───────┴────────┐
         │                │
-        │ inst.repo      │ inst.ks
+    inst.repo          inst.ks
         │                │
         ▼                ▼
 ┌───────────────┐  ┌────────────────┐
 │ HTTP RHEL     │  │ HTTP Kickstart │
-│ Repository    │  │ rhel01.ks      │
+│ Repository    │  │   rhel01.ks    │
 │               │  │                │
 │ BaseOS        │  │ Installation   │
 │ AppStream     │  │ Instructions   │
@@ -166,7 +169,7 @@ At this point, the PXE workflow begins automatically:
         └────────┬────────┘
                  │
                  ▼
-             Reboot
+              Reboot
                  │
                  ▼
         ┌─────────────────┐
@@ -176,3 +179,17 @@ At this point, the PXE workflow begins automatically:
         │ RHEL 9 Installed│
         │ SSH Available   │
         └─────────────────┘
+```
+
+### Workflow Explanation
+
+1. **UEFI Network Boot** — The blank VM starts from the network.
+2. **DHCP** — `pxe01` assigns an IP address and provides the PXE boot server and boot file.
+3. **TFTP** — The client downloads `grubx64.efi`.
+4. **GRUB2** — GRUB loads `vmlinuz` and `initrd.img`.
+5. **Anaconda** — The RHEL installer starts.
+6. **`inst.repo`** — Anaconda retrieves the RHEL installation packages from the HTTP repository.
+7. **`inst.ks`** — Anaconda retrieves the Kickstart file containing the automated installation instructions.
+8. **Automated Installation** — Kickstart configures the disk, network, packages, users, services, and security settings.
+9. **Reboot** — The server boots from its newly installed NVMe disk.
+10. **RHEL Server Ready** — `rhel01.lab.local` is available through SSH and ready for Ansible onboarding.
