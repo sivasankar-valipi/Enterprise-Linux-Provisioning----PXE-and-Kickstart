@@ -67,7 +67,7 @@ The PXE server needs access to Red Hat repositories so that required packages ca
 
 subscription-manager register
 
-**Credentials associated with your Red Hat Developer account**
+**Use credentials associated with your Red Hat Developer account here**
 
 subscription-manager status
 
