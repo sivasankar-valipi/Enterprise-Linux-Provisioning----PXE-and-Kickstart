@@ -68,3 +68,15 @@ Our architecture is:
          ▼         ▼
      Boot files   RHEL
                   repository
+
+# Anaconda
+
+Anaconda is the installation program used by Red Hat Enterprise Linux.
+
+When a RHEL system is installed, Anaconda is responsible for performing the actual installation of the operating system.
+
+# Kickstart
+
+Kickstart is an automated installation configuration file used by RHEL and other Red Hat-based systems.
+
+**Anaconda performs the RHEL installation, while Kickstart tells Anaconda how the installation should be performed**
