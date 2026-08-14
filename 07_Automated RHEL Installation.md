@@ -86,45 +86,93 @@ EFI Network...
 
 At this point, the PXE workflow begins automatically:
 
-New Blank VM
-     │
-     ▼
-EFI Network Boot
-     │
-     │ DHCPDISCOVER
-     ▼
-pxe01 DHCP
-     │
-     │ IP address
-     │ next-server
-     │ grubx64.efi
-     ▼
-rhel01
-     │
-     │ TFTP
-     ▼
-grubx64.efi
-     │
-     ▼
-GRUB Menu
-     │
-     ▼
-vmlinuz + initrd.img
-     │
-     ▼
-RHEL 9 Anaconda
-     │
-     │ inst.repo
-     ├──────────────► HTTP RHEL Repository
-     │
-     │ inst.ks
-     └──────────────► Kickstart
-                           │
-                           ▼
-                    Automatic Install
-                           │
-                           ▼
-                         Reboot
-                           │
-                           ▼
-                    rhel01.lab.local
+┌──────────────────────────────┐
+│       New Blank VM           │
+│          rhel01              │
+│     No OS / No ISO           │
+└──────────────┬───────────────┘
+               │
+               ▼
+       ┌─────────────────┐
+       │ UEFI Network    │
+       │     Boot        │
+       └────────┬────────┘
+                │
+                │ DHCPDISCOVER
+                ▼
+       ┌─────────────────┐
+       │      pxe01      │
+       │  DHCP Server    │
+       │ 192.168.43.134  │
+       └────────┬────────┘
+                │
+                │ DHCPOFFER / DHCPACK
+                │
+                │ Client IP:
+                │ 192.168.43.150
+                │
+                │ next-server:
+                │ 192.168.43.134
+                │
+                │ boot file:
+                │ grub/grubx64.efi
+                ▼
+       ┌─────────────────┐
+       │      rhel01     │
+       │  TFTP Request   │
+       └────────┬────────┘
+                │
+                │ TFTP
+                ▼
+       ┌─────────────────┐
+       │   grubx64.efi   │
+       │     GRUB2       │
+       └────────┬────────┘
+                │
+                ▼
+          grub.cfg
+                │
+                ▼
+       ┌─────────────────┐
+       │ vmlinuz         │
+       │ initrd.img      │
+       └────────┬────────┘
+                │
+                ▼
+       ┌─────────────────┐
+       │  RHEL 9         │
+       │  Anaconda       │
+       │   Installer     │
+       └────────┬────────┘
+                │
+        ┌───────┴────────┐
+        │                │
+        │ inst.repo      │ inst.ks
+        │                │
+        ▼                ▼
+┌───────────────┐  ┌────────────────┐
+│ HTTP RHEL     │  │ HTTP Kickstart │
+│ Repository    │  │ rhel01.ks      │
+│               │  │                │
+│ BaseOS        │  │ Installation   │
+│ AppStream     │  │ Instructions   │
+└───────┬───────┘  └───────┬────────┘
+        │                  │
+        └────────┬─────────┘
+                 ▼
+        ┌─────────────────┐
+        │ Automated RHEL  │
+        │   Installation  │
+        └────────┬────────┘
+                 │
+                 ▼
+             Reboot
+                 │
+                 ▼
+        ┌─────────────────┐
+        │     rhel01      │
+        │ rhel01.lab.local│
+        │                 │
+        │ RHEL 9 Installed│
+        │ SSH Available   │
+        └─────────────────┘
