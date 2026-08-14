@@ -15,33 +15,35 @@ The server firmware itself supports network boot.
 
 The lifecycle is:
 
+The lifecycle is:
+
+```text
 Blank VM / Server
-       │
-       ▼
+       |
+       v
 UEFI Network Boot
-       │
-       ▼
-   PXE Server
-       │
-       ▼
-RHEL Installer
-   Anaconda
-       │
-       ▼
-Kickstart File
-    ks.cfg
-       │
-       ▼
-    RHEL OS
-       │
-       ▼
-   SSH Access
-       │
-       ▼
+       |
+       v
+PXE Server (pxe01)
+       |
+       v
+RHEL Installer (Anaconda)
+       |
+       v
+Kickstart File (ks.cfg)
+       |
+       v
+RHEL OS
+       |
+       v
+SSH Access
+       |
+       v
 Ansible Control Node
-       │
-       ▼
+       |
+       v
 Ansible Automation
+```
 
 This is why PXE comes before Ansible in our architecture.
 
