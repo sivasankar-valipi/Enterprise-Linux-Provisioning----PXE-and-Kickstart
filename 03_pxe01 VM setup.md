@@ -58,19 +58,7 @@ For a lab setup, automatic partitioning is simple and sufficient.
 
 Open --> Software Selection
 
-Choose --> Minimal Install
-
-Why Minimal Install?
-
-A Red Hat cluster node does not require a graphical desktop environment. Installing only the minimal package set provides several advantages:
-
-Reduced disk usage
-Lower memory consumption
-Smaller attack surface
-Faster boot times
-Fewer packages to update and maintain
-
-This is the recommended installation type for production cluster nodes.
+Choose --> Graphical Install
 
 **Step 6**
 
